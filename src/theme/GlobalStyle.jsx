@@ -6,9 +6,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1{
+    font-family: Playball;
   }
 
-  p,span{
+  a,p,span,label,input,button{
+    font-family: Lexend Deca;
   }
 `
  
