@@ -1,17 +1,65 @@
 import styled from "styled-components"
 import logo from "/assets/Logo.svg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import axios from "axios"
 
-const Register = () => {
+const Register = ({token}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [image, setImage] = useState('');
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (token) navigate('/habits')
+  },[])
+
+  const createAccount = (e) => {
+    e.preventDefault();
+    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
+    const body = {email, password, name, image};
+    axios.post(URL,body)
+    .then(res => {
+      console.log('Usuário criado com sucesso');
+      navigate('/');
+    })
+    .catch(res => console.log(res))
+  }
+
   return(
     <StyledRegister>
       <StyledImg src={logo} alt="logo TrackIt" />
       <UserRegister>
-        <FormRegister>
-          <StyledInput type="email" placeholder="email" />
-          <StyledInput type="password" placeholder="senha" />
-          <StyledInput type="text" placeholder="nome" />
-          <StyledInput type="url" placeholder="foto" />
+        <FormRegister onSubmit={createAccount}>
+          <StyledInput
+            required
+            type="email"
+            placeholder="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <StyledInput
+            required
+            type="password"
+            placeholder="senha"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <StyledInput
+            required
+            type="text"
+            placeholder="nome"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <StyledInput
+            required
+            type="url"
+            placeholder="foto"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+          />
           <StyledButton>Cadastrar</StyledButton>
         </FormRegister>
         <StyledLink to={'/'} >Já tem uma conta? Faça login!</StyledLink>

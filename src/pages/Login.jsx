@@ -1,15 +1,51 @@
 import styled from "styled-components"
 import logo from "/assets/Logo.svg"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
-const Login = () => {
+const Login = ({token, setToken}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token) navigate('/habitos')
+  },[])
+
+  const acessAccount = (e) => {
+    e.preventDefault();
+    const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
+    const body = {email, password}
+    axios.post(URL, body)
+    .then(res => {
+      console.log("resposta", res);
+      localStorage.setItem('token', res.data.token)
+      setToken(res.data.token)
+      navigate('/habitos');
+    })
+    .catch(res => console.log(res))
+  }
+
   return(
     <StyledLogin>
       <StyledImg src={logo} alt="logo TrackIt" />
       <UserLogin>
-        <FormLogin>
-          <StyledInput type="email" placeholder="email" />
-          <StyledInput type="password" placeholder="senha" />
+        <FormLogin onSubmit={acessAccount} >
+          <StyledInput
+            required
+            type="email"
+            placeholder="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <StyledInput
+            required
+            type="password"
+            placeholder="senha"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
           <StyledButton>Entrar</StyledButton>
         </FormLogin>
         <StyledLink to={'/cadastro'} >Não tem uma conta? Cadastre-se!</StyledLink>

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import styled from "styled-components"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import Habits from "./pages/Habits"
 import { useContext, useState } from "react"
 
 const App = () => {
@@ -9,8 +10,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes isLogged={token} >
-        <Route path="/" element={<Layout token={token} ><Login /></Layout>}/>
-        <Route path="/cadastro" element={<Layout token={token} ><Register /></Layout>}/>
+        <Route path="/" element={<Layout><Login token={token} setToken={setToken} /></Layout>}/>
+        <Route path="/cadastro" element={<Layout><Register token={token} /></Layout>}/>
+        <Route path="/habitos" element={<Layout><Habits token={token} /></Layout>}/>
       </Routes>
     </BrowserRouter>
   )
