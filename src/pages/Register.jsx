@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import logo from "/assets/Logo.svg"
 import { Link, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 const Register = ({token}) => {
@@ -54,7 +54,6 @@ const Register = ({token}) => {
             onChange={e => setName(e.target.value)}
           />
           <StyledInput
-            required
             type="url"
             placeholder="foto"
             value={image}
