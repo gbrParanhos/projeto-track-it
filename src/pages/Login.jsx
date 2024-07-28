@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-const Login = ({token, setToken}) => {
+const Login = ({token, setToken, userImage, setUserImage}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -21,7 +21,9 @@ const Login = ({token, setToken}) => {
     .then(res => {
       console.log("resposta", res);
       localStorage.setItem('token', res.data.token)
+      localStorage.setItem('userImage', res.data.image)
       setToken(res.data.token)
+      setUserImage(res.data.image)
       navigate('/habitos');
     })
     .catch(res => console.log(res))
@@ -85,6 +87,9 @@ const StyledInput = styled.input`
   padding-left: 10px;
   border-radius: 5px;
   border: 1px solid #D4D4D4;
+  &:focus {
+    outline: 1px solid black;
+  }
   &::placeholder {
     font-size: 20px;
     font-weight: 400;

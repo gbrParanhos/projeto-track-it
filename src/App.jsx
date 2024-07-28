@@ -7,12 +7,13 @@ import { useContext, useState } from "react"
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token'))
+  const [userImage, setUserImage] = useState(localStorage.getItem('userImage'))
   return (
     <BrowserRouter>
       <Routes isLogged={token} >
-        <Route path="/" element={<Layout><Login token={token} setToken={setToken} /></Layout>}/>
-        <Route path="/cadastro" element={<Layout><Register token={token} /></Layout>}/>
-        <Route path="/habitos" element={<Layout><Habits token={token} /></Layout>}/>
+        <Route path="/" element={<Layout token={token} ><Login token={token} setToken={setToken} userImage={userImage} setUserImage={setUserImage} /></Layout>}/>
+        <Route path="/cadastro" element={<Layout token={token} ><Register token={token} /></Layout>}/>
+        <Route path="/habitos" element={<Layout token={token} ><Habits token={token} userImage={userImage} /></Layout>}/>
       </Routes>
     </BrowserRouter>
   )
@@ -21,10 +22,10 @@ const App = () => {
 const Layout = styled.div`
   display: flex;
   justify-content: center;
-  padding: ${({token})=> !token ? '70px 0' : '0'};
-  background-color: ${({token})=> !token ? 'white' : '#F2F2F2'};
+  padding: ${({token})=> token ? '70px 20px' : '0'};
+  background-color: ${({token})=> token ? '#F2F2F2' : 'white'};
   width: 100vw;
-  min-height: 100vh;
+  min-height: 100dvh;
 `
 
 export default App

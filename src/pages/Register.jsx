@@ -54,6 +54,7 @@ const Register = ({token}) => {
             onChange={e => setName(e.target.value)}
           />
           <StyledInput
+            required
             type="url"
             placeholder="foto"
             value={image}
@@ -98,6 +99,9 @@ const StyledInput = styled.input`
   padding-left: 10px;
   border-radius: 5px;
   border: 1px solid #D4D4D4;
+  &:focus {
+    outline: 1px solid black;
+  }
   &::placeholder {
     font-size: 20px;
     font-weight: 400;
