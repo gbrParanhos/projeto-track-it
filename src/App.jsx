@@ -22,7 +22,7 @@ const App = () => {
 const Layout = styled.div`
   display: flex;
   justify-content: center;
-  padding: ${({token})=> token ? '70px 20px' : '0'};
+  padding: ${({token})=> token ? '100px 20px' : '0'};
   background-color: ${({token})=> token ? '#F2F2F2' : 'white'};
   width: 100vw;
   min-height: 100dvh;
