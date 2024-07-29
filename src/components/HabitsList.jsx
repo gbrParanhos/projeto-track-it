@@ -1,6 +1,9 @@
 import styled from "styled-components"
 
 const HabitsList = () => {
+
+
+  
   return(
     <StyledList>
       <HabitsItem>

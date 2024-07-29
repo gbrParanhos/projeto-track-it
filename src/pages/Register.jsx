@@ -1,10 +1,13 @@
 import styled from "styled-components"
 import logo from "/assets/Logo.svg"
 import { Link, useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
+import UserContext from "../contexts/UserContext"
 
-const Register = ({token}) => {
+const Register = () => {
+  const userData = useContext(UserContext)
+  const token = userData && userData.token
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');

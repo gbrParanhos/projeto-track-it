@@ -1,10 +1,13 @@
 import styled from "styled-components"
 import logo from "/assets/Logo.svg"
 import { Link, useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from "axios"
+import UserContext from "../contexts/UserContext"
 
-const Login = ({token, setToken, userImage, setUserImage}) => {
+const Login = ({setUserData}) => {
+  const userData = useContext(UserContext)
+  const token = userData && userData.token
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -20,10 +23,8 @@ const Login = ({token, setToken, userImage, setUserImage}) => {
     axios.post(URL, body)
     .then(res => {
       console.log("resposta", res);
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('userImage', res.data.image)
-      setToken(res.data.token)
-      setUserImage(res.data.image)
+      localStorage.setItem('userData', JSON.stringify({token:res.data.token,image:res.data.image}));
+      setUserData({token:res.data.token,image:res.data.image});
       navigate('/habitos');
     })
     .catch(res => console.log(res))

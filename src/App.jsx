@@ -3,26 +3,31 @@ import styled from "styled-components"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Habits from "./pages/Habits"
-import { useContext, useState } from "react"
+import { useState } from "react"
+import UserContext from "./contexts/UserContext"
+import Footer from "./components/Footer"
 
 const App = () => {
-  const [token, setToken] = useState(localStorage.getItem('token'))
-  const [userImage, setUserImage] = useState(localStorage.getItem('userImage'))
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')));
+
   return (
-    <BrowserRouter>
-      <Routes isLogged={token} >
-        <Route path="/" element={<Layout token={token} ><Login token={token} setToken={setToken} userImage={userImage} setUserImage={setUserImage} /></Layout>}/>
-        <Route path="/cadastro" element={<Layout token={token} ><Register token={token} /></Layout>}/>
-        <Route path="/habitos" element={<Layout token={token} ><Habits token={token} userImage={userImage} /></Layout>}/>
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={userData}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout token={userData && userData.token} ><Login setUserData={setUserData} /></Layout>}/>
+          <Route path="/cadastro" element={<Layout token={userData && userData.token} ><Register /></Layout>}/>
+          <Route path="/habitos" element={<Layout token={userData && userData.token} ><Habits /></Layout>}/>
+          <Route path="/hoje" element={<Layout token={userData && userData.token} ></Layout>}/>
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   )
 }
 
 const Layout = styled.div`
   display: flex;
   justify-content: center;
-  padding: ${({token})=> token ? '100px 20px' : '0'};
+  padding: ${({token})=> token ? '100px 20px' : '70px 0'};
   background-color: ${({token})=> token ? '#F2F2F2' : 'white'};
   width: 100vw;
   min-height: 100dvh;

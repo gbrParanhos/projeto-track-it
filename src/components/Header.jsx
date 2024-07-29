@@ -1,10 +1,13 @@
+import { useContext } from "react"
 import styled from "styled-components"
+import UserContext from "../contexts/UserContext"
 
-const Header = ({userImage}) => {
+const Header = () => {
+  const {image} = useContext(UserContext)
   return(
     <StyledHeader>
       <AppTitle>TrackIt</AppTitle>
-      <UserImage src={userImage} />
+      <UserImage src={image} />
     </StyledHeader>
   )
 }

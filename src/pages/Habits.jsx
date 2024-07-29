@@ -1,12 +1,14 @@
-import { useEffect } from "react"
+import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import styled from "styled-components"
 import HabitsForm from "../components/HabitsForm"
 import HabitsList from "../components/HabitsList"
+import UserContext from "../contexts/UserContext"
 
-const Habits = ({token, userImage}) => {
+const Habits = () => {
+  const {token} = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -15,7 +17,7 @@ const Habits = ({token, userImage}) => {
 
   return(
     <>
-      <Header userImage={userImage} />
+      <Header />
       <StyledHabits>
         <ContentHeader>
           <TitleContent>Meus hábitos</TitleContent>
