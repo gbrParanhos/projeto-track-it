@@ -5,7 +5,6 @@ import Register from "./pages/Register"
 import Habits from "./pages/Habits"
 import { useState } from "react"
 import UserContext from "./contexts/UserContext"
-import Footer from "./components/Footer"
 
 const App = () => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')));

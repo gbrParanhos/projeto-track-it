@@ -49,7 +49,7 @@ const Login = ({setUserData}) => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <StyledButton>Entrar</StyledButton>
+          <StyledButton type="submit" >Entrar</StyledButton>
         </FormLogin>
         <StyledLink to={'/cadastro'} >Não tem uma conta? Cadastre-se!</StyledLink>
       </UserLogin>

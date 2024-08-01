@@ -63,7 +63,7 @@ const Register = () => {
             value={image}
             onChange={e => setImage(e.target.value)}
           />
-          <StyledButton>Cadastrar</StyledButton>
+          <StyledButton type="submit">Cadastrar</StyledButton>
         </FormRegister>
         <StyledLink to={'/'} >Já tem uma conta? Faça login!</StyledLink>
       </UserRegister>

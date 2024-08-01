@@ -3,7 +3,9 @@ import styled from "styled-components"
 import UserContext from "../contexts/UserContext"
 
 const Header = () => {
-  const {image} = useContext(UserContext)
+  const userData = useContext(UserContext);
+  const image = userData && userData.image;
+  
   return(
     <StyledHeader>
       <AppTitle>TrackIt</AppTitle>

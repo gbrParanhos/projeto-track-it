@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
@@ -6,14 +6,34 @@ import styled from "styled-components"
 import HabitsForm from "../components/HabitsForm"
 import HabitsList from "../components/HabitsList"
 import UserContext from "../contexts/UserContext"
+import axios from "axios"
 
 const Habits = () => {
-  const {token} = useContext(UserContext)
-  const navigate = useNavigate()
+  const userData = useContext(UserContext);
+  const token = userData && userData.token;
+  const navigate = useNavigate();
+  const [habitsList, setHabitsList] = useState(null);
+  const [openedForm, setOpenedForm] = useState(false);
 
   useEffect(() => {
     if (!token) navigate('/')
-  },[])
+  },[]);
+
+  const getHabits = () => {
+    const config = {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }
+    axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
+    .then(res => setHabitsList(res.data))
+    .catch(res => console.log(res))
+    
+  }
+
+  useEffect(() => getHabits(),[]);
+
+  const openForm = () => setOpenedForm(true)
 
   return(
     <>
@@ -21,10 +41,10 @@ const Habits = () => {
       <StyledHabits>
         <ContentHeader>
           <TitleContent>Meus hábitos</TitleContent>
-          <NewHabit>+</NewHabit>
+          <NewHabit onClick={openForm}>+</NewHabit>
         </ContentHeader>
-        <HabitsForm/>
-        <HabitsList/>
+        {openedForm && <HabitsForm getHabits={getHabits} setOpenedForm={setOpenedForm} />}
+        <HabitsList habitsList={habitsList} />
       </StyledHabits>
       <Footer />
     </>
