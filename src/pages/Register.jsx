@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import logo from "/assets/Logo.svg"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
@@ -12,7 +12,9 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [image, setImage] = useState('');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     if (token) navigate('/habits')
@@ -20,6 +22,7 @@ const Register = () => {
 
   const createAccount = (e) => {
     e.preventDefault();
+    setLoading(true);
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up';
     const body = {email, password, name, image};
     axios.post(URL,body)
@@ -27,7 +30,10 @@ const Register = () => {
       console.log('Usuário criado com sucesso');
       navigate('/');
     })
-    .catch(res => console.log(res))
+    .catch(res => {
+      setLoading(false);
+      alert(res.response.data.message);
+    })
   }
 
   return(
@@ -36,6 +42,7 @@ const Register = () => {
       <UserRegister>
         <FormRegister onSubmit={createAccount}>
           <StyledInput
+            disabled={loading}
             required
             type="email"
             placeholder="email"
@@ -43,6 +50,7 @@ const Register = () => {
             onChange={e => setEmail(e.target.value)}
           />
           <StyledInput
+            disabled={loading}
             required
             type="password"
             placeholder="senha"
@@ -50,6 +58,7 @@ const Register = () => {
             onChange={e => setPassword(e.target.value)}
           />
           <StyledInput
+            disabled={loading}
             required
             type="text"
             placeholder="nome"
@@ -57,15 +66,16 @@ const Register = () => {
             onChange={e => setName(e.target.value)}
           />
           <StyledInput
+            disabled={loading}
             required
             type="url"
             placeholder="foto"
             value={image}
             onChange={e => setImage(e.target.value)}
           />
-          <StyledButton type="submit">Cadastrar</StyledButton>
+          <StyledButton disabled={loading} isloading={loading.toString()} type="submit">{ loading ? <Loader /> : 'Cadastrar' }</StyledButton>
         </FormRegister>
-        <StyledLink to={'/'} >Já tem uma conta? Faça login!</StyledLink>
+        <StyledLink disabled={loading} isloading={loading.toString()} to={'/'} >Já tem uma conta? Faça login!</StyledLink>
       </UserRegister>
     </StyledRegister>
   )
@@ -113,6 +123,7 @@ const StyledInput = styled.input`
 `
 
 const StyledButton = styled.button`
+  opacity: ${({isloading}) => isloading === 'true' ? 0.7 : 1};
   background-color: #52B6FF;
   color: white;
   width: 100%;
@@ -122,7 +133,28 @@ const StyledButton = styled.button`
   font-weight: 400;
 `
 
+const rotation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`
+
+const Loader = styled.div`
+  width: 25px;
+  height: 25px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: ${rotation} 1s linear infinite;
+`
+
 const StyledLink = styled(Link)`
+  opacity: ${({isloading}) => isloading === 'true' ? 0.7 : 1};
   color: #52B6FF;
   text-decoration: underline;
   font-size: 14px;

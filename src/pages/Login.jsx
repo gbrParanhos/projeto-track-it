@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import logo from "/assets/Logo.svg"
 import { Link, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
@@ -11,6 +11,8 @@ const Login = ({setUserData}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     if (token) navigate('/habitos')
@@ -18,6 +20,7 @@ const Login = ({setUserData}) => {
 
   const acessAccount = (e) => {
     e.preventDefault();
+    setLoading(true);
     const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login'
     const body = {email, password}
     axios.post(URL, body)
@@ -25,9 +28,13 @@ const Login = ({setUserData}) => {
       console.log("resposta", res);
       localStorage.setItem('userData', JSON.stringify({token:res.data.token,image:res.data.image}));
       setUserData({token:res.data.token,image:res.data.image});
+      setLoading(false);
       navigate('/habitos');
     })
-    .catch(res => console.log(res))
+    .catch(res => {
+      setLoading(false)
+      alert(res.response.data.message);
+    })
   }
 
   return(
@@ -37,6 +44,7 @@ const Login = ({setUserData}) => {
         <FormLogin onSubmit={acessAccount} >
           <StyledInput
             required
+            disabled={loading}
             type="email"
             placeholder="email"
             value={email}
@@ -44,14 +52,15 @@ const Login = ({setUserData}) => {
           />
           <StyledInput
             required
+            disabled={loading}
             type="password"
             placeholder="senha"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <StyledButton type="submit" >Entrar</StyledButton>
+          <StyledButton disabled={loading} isloading={loading.toString()} type="submit" >{ loading ? <Loader /> : 'Entrar' }</StyledButton>
         </FormLogin>
-        <StyledLink to={'/cadastro'} >Não tem uma conta? Cadastre-se!</StyledLink>
+        <StyledLink disabled={loading} isloading={loading.toString()} to={'/cadastro'} >Não tem uma conta? Cadastre-se!</StyledLink>
       </UserLogin>
     </StyledLogin>
   )
@@ -99,6 +108,10 @@ const StyledInput = styled.input`
 `
 
 const StyledButton = styled.button`
+  opacity: ${({isloading}) => isloading === 'true' ? 0.7 : 1};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #52B6FF;
   color: white;
   width: 100%;
@@ -108,7 +121,28 @@ const StyledButton = styled.button`
   font-weight: 400;
 `
 
+const rotation = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`
+
+const Loader = styled.div`
+  width: 25px;
+  height: 25px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: ${rotation} 1s linear infinite;
+`
+
 const StyledLink = styled(Link)`
+  opacity: ${({isloading}) => isloading === 'true' ? 0.7 : 1};
   color: #52B6FF;
   text-decoration: underline;
   font-size: 14px;

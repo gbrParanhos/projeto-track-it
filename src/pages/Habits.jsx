@@ -20,15 +20,16 @@ const Habits = () => {
   },[]);
 
   const getHabits = () => {
-    const config = {
-      headers: {
-        "Authorization": `Bearer ${token}`
+    if (token) {
+      const config = {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       }
+      axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
+      .then(res => setHabitsList(res.data))
+      .catch(res => console.log(res))
     }
-    axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config)
-    .then(res => setHabitsList(res.data))
-    .catch(res => console.log(res))
-    
   }
 
   useEffect(() => getHabits(),[]);

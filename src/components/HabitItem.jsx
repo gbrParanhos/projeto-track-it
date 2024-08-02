@@ -5,25 +5,24 @@ const HabitItem = ({name, days}) => {
     <StyledItem>
       <HabitTitle>{name}</HabitTitle>
       <Weekdays>
-        <Weekday type="button" days={days.includes(0).toString()} >D</Weekday>
-        <Weekday type="button" days={days.includes(1).toString()} >S</Weekday>
-        <Weekday type="button" days={days.includes(2).toString()} >T</Weekday>
-        <Weekday type="button" days={days.includes(3).toString()} >Q</Weekday>
-        <Weekday type="button" days={days.includes(4).toString()} >Q</Weekday>
-        <Weekday type="button" days={days.includes(5).toString()} >S</Weekday>
-        <Weekday type="button" days={days.includes(6).toString()} >S</Weekday>
+        <Weekday days={days.includes(0).toString()} >D</Weekday>
+        <Weekday days={days.includes(1).toString()} >S</Weekday>
+        <Weekday days={days.includes(2).toString()} >T</Weekday>
+        <Weekday days={days.includes(3).toString()} >Q</Weekday>
+        <Weekday days={days.includes(4).toString()} >Q</Weekday>
+        <Weekday days={days.includes(5).toString()} >S</Weekday>
+        <Weekday days={days.includes(6).toString()} >S</Weekday>
       </Weekdays>
     </StyledItem>
   )
 }
 
-const StyledItem = styled.form`
+const StyledItem = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
   width: 100%;
   padding: 20px;
-  row-gap: 10px;
   border-radius: 5px;
   background-color: white;
 `

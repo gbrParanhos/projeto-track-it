@@ -5,6 +5,7 @@ import Register from "./pages/Register"
 import Habits from "./pages/Habits"
 import { useState } from "react"
 import UserContext from "./contexts/UserContext"
+import Today from "./pages/Today"
 
 const App = () => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem('userData')));
@@ -16,7 +17,7 @@ const App = () => {
           <Route path="/" element={<Layout token={userData && userData.token} ><Login setUserData={setUserData} /></Layout>}/>
           <Route path="/cadastro" element={<Layout token={userData && userData.token} ><Register /></Layout>}/>
           <Route path="/habitos" element={<Layout token={userData && userData.token} ><Habits /></Layout>}/>
-          <Route path="/hoje" element={<Layout token={userData && userData.token} ></Layout>}/>
+          <Route path="/hoje" element={<Layout token={userData && userData.token} ><Today /></Layout>}/>
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>

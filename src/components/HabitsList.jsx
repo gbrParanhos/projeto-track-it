@@ -1,9 +1,10 @@
 import styled from "styled-components"
 import HabitItem from "./HabitItem"
+import loadingGif from "/assets/Loading.gif"
 
 const HabitsList = ({habitsList}) => {
   
-  if ( habitsList === null ) return <p>CARREGANDO</p>
+  if ( habitsList === null ) return <img src={loadingGif} alt="Loading" />
   
   return(
     <StyledList>
